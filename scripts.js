@@ -1,41 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Piece Episode Guide</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+let episodes = [];
 
-<body>
+const episodeList = document.getElementById("episode-list");
+const searchInput = document.getElementById("search");
 
-    <header>
+fetch("episodes.json")
+  .then(res => res.json())
+  .then(data => {
+    episodes = data;
+    displayEpisodes(episodes);
+  });
 
-        <img src="images/One-Piece-Header.jpg" alt="One Piece Header" class="banner">
+function displayEpisodes(list) {
+  episodeList.innerHTML = "";
 
-        <h1>One Piece Episode Guide</h1>
-        <p>Canon, Filler, and Mixed Episodes</p>
+  list.forEach(ep => {
+    const div = document.createElement("div");
 
-    </header>
+    let className = "canon";
 
-    <main>
+    if (ep.type === "Filler") className = "filler";
+    if (ep.type === "Mixed Canon/Filler") className = "mixed";
 
-        <input type="text" id="search" placeholder="Search episodes...">
+    div.className = `episode ${className}`;
 
-        <div class="buttons">
-            <button onclick="filterEpisodes('All')">All</button>
-            <button onclick="filterEpisodes('Canon')">Canon</button>
-            <button onclick="filterEpisodes('Filler')">Filler</button>
-            <button onclick="filterEpisodes('Mixed Canon/Filler')">Mixed</button>
-        </div>
+    div.innerHTML = `
+      <h3>Episode ${ep.number}</h3>
+      <p>${ep.title}</p>
+      <strong>${ep.type}</strong>
+    `;
 
-        <div id="episode-list"></div>
+    episodeList.appendChild(div);
+  });
+}
 
-    </main>
+searchInput.addEventListener("input", () => {
+  const value = searchInput.value.toLowerCase();
 
-    <script src="script.js"></script>
+  const filtered = episodes.filter(ep =>
+    ep.title.toLowerCase().includes(value) ||
+    ep.number.toString().includes(value)
+  );
 
-</body>
-</html>
+  displayEpisodes(filtered);
+});
+
+function filterEpisodes(type) {
+  if (type === "All") {
+    displayEpisodes(episodes);
+    return;
+  }
+
+  const filtered = episodes.filter(ep => ep.type === type);
+  displayEpisodes(filtered);
+
 
 
