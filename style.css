@@ -1,0 +1,42 @@
+body {
+  background: #faf8f8;
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+header {
+  background: #000000;
+  text-align: Left;
+  padding: 20px;
+}
+
+main {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.episode {
+  background: #222;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+.canon {
+  border-left: 8px solid green;
+}
+
+.filler {
+  border-left: 8px solid orange;
+}
+
+.mixed {
+  border-left: 8px solid yellow;
+}
+.banner{
+  height: 300px;
+  width: 100%;
+  object-fit: cover;
+}
